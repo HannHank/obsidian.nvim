@@ -25,6 +25,7 @@ M.RefTypes = {
   Tag = "Tag",
   BlockID = "BlockID",
   Highlight = "Highlight",
+  ZoteroLink  = "ZoteroLink"
 }
 
 ---@enum obsidian.search.Patterns
@@ -44,6 +45,7 @@ M.Patterns = {
   NakedUrl = "https?://[a-zA-Z0-9._-]+[a-zA-Z0-9._#/=&?:+%%-]+[a-zA-Z0-9/]", -- https://xyz.com
   FileUrl = "file:/[/{2}]?.*", -- file:///
   MailtoUrl = "mailto:.*", -- mailto:emailaddress
+  ZoteroLink = "^@[A-Za-z0-9]+#[A-Za-z0-9_]+", -- @itemId#name
   BlockID = util.BLOCK_PATTERN .. "$", -- ^hello-world
 }
 
@@ -147,6 +149,7 @@ end
 ---@field include_tags boolean|?
 ---@field include_file_urls boolean|?
 ---@field include_block_ids boolean|?
+---@field include_zotero_links boolean|?
 
 --- Find refs and URLs.
 ---@param s string the string to search
@@ -168,6 +171,9 @@ M.find_refs = function(s, opts)
   end
   if opts.include_block_ids then
     pattern_names[#pattern_names + 1] = M.RefTypes.BlockID
+  end
+  if opts.include_zotero_links then
+    pattern_names[#pattern_names + 1] = M.RefTypes.ZoteroLink
   end
 
   return M.find_matches(s, pattern_names)

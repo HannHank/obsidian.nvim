@@ -610,6 +610,31 @@ util.cursor_on_markdown_link = function(line, col, include_naked_urls, include_f
 
   return nil
 end
+---Determines if cursor is currently Zotero link.
+---
+---@param line string|nil - line to check or current line if nil
+---@param col  integer|nil - column to check or current column if nil (1-indexed)
+---@return integer|nil, integer|nil, obsidian.search.RefTypes|? - start and end column of link (1-indexed)
+util.cursor_on_zotero_link = function(line, col)
+  local search = require "obsidian.search"
+
+  local current_line = line and line or vim.api.nvim_get_current_line()
+  local _, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
+  cur_col = col or cur_col + 1 -- nvim_win_get_cursor returns 0-indexed column
+
+  for match in
+    iter(search.find_refs(current_line, {
+      include_zotero_links = true,
+    }))
+  do
+    local open, close, m_type = unpack(match)
+    if open <= cur_col and cur_col <= close then
+      return open, close, m_type
+    end
+  end
+
+  return nil
+end
 
 --- Deprecated, use `parse_cursor_link()` instead.
 ---
@@ -713,6 +738,10 @@ util.parse_link = function(link, opts)
   elseif link_type == search.RefTypes.BlockID then
     link_location = util.standardize_block(link)
     link_name = link
+  elseif link_type == search.RefTypes.ZoteroLink then
+    -- we need to do nothing, the rest is handled by zotcite
+    link_location = link
+    link_name = link
   else
     error("not implemented for " .. link_type)
   end
@@ -755,6 +784,10 @@ util.smart_action = function()
   -- follow link if possible
   if util.cursor_on_markdown_link(nil, nil, true) then
     return "<cmd>ObsidianFollowLink<CR>"
+  end
+
+  if util.cursor_on_zotero_link(nil, nil) then
+    return "<Cmd>lua require('zotcite.get').open_attachment()<CR>"
   end
 
   -- toggle task if possible
