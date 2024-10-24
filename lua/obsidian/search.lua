@@ -45,7 +45,7 @@ M.Patterns = {
   NakedUrl = "https?://[a-zA-Z0-9._-]+[a-zA-Z0-9._#/=&?:+%%-]+[a-zA-Z0-9/]", -- https://xyz.com
   FileUrl = "file:/[/{2}]?.*", -- file:///
   MailtoUrl = "mailto:.*", -- mailto:emailaddress
-  ZoteroLink = "@[A-Za-z0-9]+#[A-Za-z0-9_]+", -- @itemId#name
+  ZoteroLink = "@[A-Za-z0-9]+#[^\\s]+", -- @itemId#name
   BlockID = util.BLOCK_PATTERN .. "$", -- ^hello-world
 }
 
