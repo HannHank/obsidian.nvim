@@ -173,7 +173,7 @@ M.find_refs = function(s, opts)
     pattern_names[#pattern_names + 1] = M.RefTypes.BlockID
   end
   if opts.include_zotero_links then
-    pattern_names[#pattern_names + 1] = M.RefTypes.ZoteroLink
+      pattern_names = { M.RefTypes.ZoteroLink } -- for zoterolinks we only want to seaerch for them
   end
 
   return M.find_matches(s, pattern_names)
