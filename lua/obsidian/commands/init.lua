@@ -5,6 +5,7 @@ local command_lookups = {
   ObsidianCheck = "obsidian.commands.check",
   ObsidianToggleCheckbox = "obsidian.commands.toggle_checkbox",
   ObsidianToday = "obsidian.commands.today",
+  ObsidianTodayMerge = "obsidian.commands.todayMerge",
   ObsidianYesterday = "obsidian.commands.yesterday",
   ObsidianTomorrow = "obsidian.commands.tomorrow",
   ObsidianDailies = "obsidian.commands.dailies",
@@ -131,6 +132,8 @@ end
 M.register("ObsidianCheck", { opts = { nargs = 0, desc = "Check for issues in your vault" } })
 
 M.register("ObsidianToday", { opts = { nargs = "?", desc = "Open today's daily note" } })
+
+M.register("ObsidianTodayMerge", { opts = { nargs = "?", desc = "Open today's daily note and merges undone tasks from yesterday" } })
 
 M.register("ObsidianYesterday", { opts = { nargs = 0, desc = "Open the daily note for the previous working day" } })
 
