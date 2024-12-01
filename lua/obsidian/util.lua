@@ -784,7 +784,6 @@ util.smart_action = function()
   if util.cursor_on_zotero_link(nil, nil) then
     return "<Cmd>lua require('zotcite.get').open_attachment()<CR>"
   end
-
   -- follow link if possible
   if util.cursor_on_markdown_link(nil, nil, true) then
     return "<cmd>ObsidianFollowLink<CR>"

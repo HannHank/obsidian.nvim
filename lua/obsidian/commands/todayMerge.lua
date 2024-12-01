@@ -126,7 +126,7 @@ return function(client, data)
   end
 
   local todays_note = client:daily(offset_days)
-  local yesterday_note = client:yesterday()
+  local yesterday_note = client:daily(-1) -- otherwise you will get yesterday only from M-F
 
   local yesterday_note_content = read_file(yesterday_note.path.filename)
   if yesterday_note_content == nil then
